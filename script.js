@@ -20,7 +20,7 @@ function calculateCarbon() {
         (plastic * 0.05) +
         foodFactor;
 
-    fetch("http://localhost:5000/save-activity", {
+    fetch("https://ecomind-ai-7d9b.onrender.com/save-activity"), {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -62,7 +62,7 @@ function loadDashboardData() {
 }
 
 function loadAISuggestions() {
-    fetch("http://localhost:5000/ai-suggestion")
+    fetch("https://ecomind-ai-7d9b.onrender.com/ai-suggestion")
     .then(res => res.json())
     .then(data => {
         let box = document.getElementById("aiSuggestions");
