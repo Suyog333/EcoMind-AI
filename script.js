@@ -20,7 +20,7 @@ function calculateCarbon() {
         (plastic * 0.05) +
         foodFactor;
 
-    fetch("https://ecomind-ai-7d9b.onrender.com/save-activity"), {
+    fetch("https://ecomind-ai-7d9b.onrender.com/save-activity", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -41,7 +41,7 @@ function calculateCarbon() {
 }
 
 function loadDashboardData() {
-    fetch("http://localhost:5000/get-latest-activity")
+    fetch("https://ecomind-ai-7d9b.onrender.com/get-latest-activity")
     .then(res => res.json())
     .then(data => {
         document.getElementById("carbonResult").innerText =
@@ -73,31 +73,4 @@ function loadAISuggestions() {
             box.innerHTML += "<p>• " + item + "</p>";
         });
     });
-}
-
-function sendMessage() {
-    let question = document.getElementById("userQuestion").value;
-    let responseBox = document.getElementById("aiResponse");
-
-    if (question === "") {
-        responseBox.innerHTML = "Please enter a question.";
-        return;
-    }
-
-    let reply = "";
-
-    if (question.toLowerCase().includes("reduce")) {
-        reply = "Try reducing car travel and electricity use.";
-    } 
-    else if (question.toLowerCase().includes("food")) {
-        reply = "Plant-based meals can reduce carbon emissions.";
-    } 
-    else if (question.toLowerCase().includes("plastic")) {
-        reply = "Use reusable bags and avoid single-use plastics.";
-    } 
-    else {
-        reply = "Small lifestyle changes can create a big environmental impact.";
-    }
-
-    responseBox.innerHTML = reply;
 }
