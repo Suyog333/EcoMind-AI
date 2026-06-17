@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="activity.html">Add Activity</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="coach.html">AI Coach</a>
+    <a href="profile.html">Profile</a>
+</div>
+
+<div class="main">
+    <h1>Dashboard</h1>
+
+    <div class="score-card">
+       <h2 id="carbonResult">0 kg CO₂</h2>
+       <p id="transportData"></p>
+       <p id="electricityData"></p>
+       <p id="foodData"></p>
+       <p id="plasticData"></p>
+
+       <h3 id="aiTitle">AI Suggestions</h3>
+       <div id="aiSuggestions"></div>
+    </div>
+
+    <div class="graph-box">Weekly Emission Graph</div>
+
+    <div class="goal-box">
+        Goal: Reduce 20kg this week
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+    loadDashboardData();
+    loadAISuggestions();
+</script>
+
+</body>
+</html>

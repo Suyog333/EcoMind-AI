@@ -1,0 +1,103 @@
+function calculateCarbon() {
+    let transport = document.querySelectorAll("select")[0].value;
+    let distance = document.querySelectorAll("input")[0].value;
+    let electricity = document.querySelectorAll("input")[1].value;
+    let plastic = document.querySelectorAll("input")[2].value;
+    let food = document.querySelectorAll("select")[1].value;
+
+    let transportFactor = {
+        Car: 0.21,
+        Bus: 0.10,
+        Train: 0.05,
+        Bike: 0
+    };
+
+    let foodFactor = food === "Veg" ? 2 : 5;
+
+    let total =
+        (distance * transportFactor[transport]) +
+        (electricity * 0.85) +
+        (plastic * 0.05) +
+        foodFactor;
+
+    fetch("http://localhost:5000/save-activity", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            transport,
+            distance,
+            electricity,
+            food,
+            plastic,
+            totalCarbon: total
+        })
+    })
+    .then(res => res.text())
+    .then(data => {
+        alert(data);
+    });
+}
+
+function loadDashboardData() {
+    fetch("http://localhost:5000/get-latest-activity")
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("carbonResult").innerText =
+            data.totalCarbon + " kg CO₂";
+
+        document.getElementById("transportData").innerText =
+            "Transport: " + data.transport;
+
+        document.getElementById("electricityData").innerText =
+            "Electricity: " + data.electricity;
+
+        document.getElementById("foodData").innerText =
+            "Food: " + data.food;
+
+        document.getElementById("plasticData").innerText =
+            "Plastic: " + data.plastic;
+    });
+}
+
+function loadAISuggestions() {
+    fetch("http://localhost:5000/ai-suggestion")
+    .then(res => res.json())
+    .then(data => {
+        let box = document.getElementById("aiSuggestions");
+
+        box.innerHTML = "";
+
+        data.forEach(item => {
+            box.innerHTML += "<p>• " + item + "</p>";
+        });
+    });
+}
+
+function sendMessage() {
+    let question = document.getElementById("userQuestion").value;
+    let responseBox = document.getElementById("aiResponse");
+
+    if (question === "") {
+        responseBox.innerHTML = "Please enter a question.";
+        return;
+    }
+
+    let reply = "";
+
+    if (question.toLowerCase().includes("reduce")) {
+        reply = "Try reducing car travel and electricity use.";
+    } 
+    else if (question.toLowerCase().includes("food")) {
+        reply = "Plant-based meals can reduce carbon emissions.";
+    } 
+    else if (question.toLowerCase().includes("plastic")) {
+        reply = "Use reusable bags and avoid single-use plastics.";
+    } 
+    else {
+        reply = "Small lifestyle changes can create a big environmental impact.";
+    }
+
+    responseBox.innerHTML = reply;
+}
