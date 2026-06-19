@@ -1,3 +1,10 @@
+// Get input values
+// Calculate carbon
+// Save data to database
+if (!distance || !electricity || !plastic) {
+    alert("Please fill all fields");
+    return;
+}
 function calculateCarbon() {
     let transport = document.querySelectorAll("select")[0].value;
     let distance = document.querySelectorAll("input")[0].value;
@@ -20,26 +27,28 @@ function calculateCarbon() {
         (plastic * 0.05) +
         foodFactor;
 
-    fetch("http://localhost:5000/save-activity", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            transport,
-            distance,
-            electricity,
-            food,
-            plastic,
-            totalCarbon: total
-        })
+   fetch("http://localhost:5000/save-activity", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        transport,
+        distance,
+        electricity,
+        food,
+        plastic,
+        totalCarbon: total
     })
-    .then(res => res.text())
-    .then(data => {
-        alert(data);
-    });
-}
-
+})
+.then(res => res.text())
+.then(data => {
+    alert(data);
+})
+.catch(error => {
+    console.log(error);
+    alert("Something went wrong");
+});
 function loadDashboardData() {
     fetch("http://localhost:5000/get-latest-activity")
     .then(res => res.json())
