@@ -20,7 +20,7 @@ function calculateCarbon() {
         (plastic * 0.05) +
         foodFactor;
 
-    fetch("https://ecomind-ai-7d9b.onrender.com/save-activity", {
+    fetch("http://localhost:5000/save-activity", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -41,7 +41,7 @@ function calculateCarbon() {
 }
 
 function loadDashboardData() {
-    fetch("https://ecomind-ai-7d9b.onrender.com/get-latest-activity")
+    fetch("http://localhost:5000/get-latest-activity")
     .then(res => res.json())
     .then(data => {
         document.getElementById("carbonResult").innerText =
@@ -62,7 +62,7 @@ function loadDashboardData() {
 }
 
 function loadAISuggestions() {
-    fetch("https://ecomind-ai-7d9b.onrender.com/ai-suggestion")
+    fetch("http://localhost:5000/ai-suggestion")
     .then(res => res.json())
     .then(data => {
         let box = document.getElementById("aiSuggestions");
@@ -74,3 +74,36 @@ function loadAISuggestions() {
         });
     });
 }
+function loadCharts() {
+    const weeklyCtx = document.getElementById("weeklyChart");
+
+    if (weeklyCtx) {
+        new Chart(weeklyCtx, {
+            type: "bar",
+            data: {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+                datasets: [{
+                    label: "CO₂ Emission",
+                    data: [8, 6, 7, 5, 4]
+                }]
+            }
+        });
+    }
+
+    const categoryCtx = document.getElementById("categoryChart");
+
+    if (categoryCtx) {
+        new Chart(categoryCtx, {
+            type: "pie",
+            data: {
+                labels: ["Transport", "Electricity", "Food", "Plastic"],
+                datasets: [{
+                    data: [40, 30, 20, 10]
+                }]
+            }
+        });
+    }
+}
+
+loadCharts();
+
